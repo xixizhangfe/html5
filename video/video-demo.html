@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <!-- 要在meta中加上，否则视频会扩充变形哦 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no" />
+    <link rel="stylesheet" type="text/css" href="css/video-demo.css">
+</head>
+
+<body>
+    <div class="my-video">
+        <!-- webkit-playsinline : 在ios中，加入此属性，可以关闭自动全屏播放 -->
+        <!-- object-fit:fill : 视频充满video容器的大小 -->
+        <video class="" style="" id="video1">
+            <source src="2.mp4" type="video/mp4">
+            <source src="2.ogg" type="video/ogg"> 设备不支持Video标签。
+        </video>
+    </div>
+    <script type="text/javascript" src="js/mui.min.js"></script>
+    <script type="text/javascript" src="js/video-demo.js"></script>
+    <script type="text/javascript">
+      var v = mui.myVideo();
+    </script>
+
+</body>
+
+</html>
