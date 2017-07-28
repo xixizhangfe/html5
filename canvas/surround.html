@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <style type="text/css">
+    #canvas {
+        background: black;
+    }
+    </style>
+</head>
+
+<body>
+    <div>
+        <canvas id="canvas" width="500" height="500">
+        </canvas>
+    </div>
+    <script src="js/spaceship.js"></script>
+    <script src="js/utils.js"></script>
+    <script type="text/javascript">
+    // 边界环绕：从一个边界出去时，就会从另一边出来
+    window.onload = function() {
+        var canvas = document.getElementById('canvas');
+        var pen = canvas.getContext('2d');
+        var left = 0;
+        var top = 0;
+        var right = canvas.width;
+        var bottom = canvas.height;
+        var ship = new SpaceShip();
+
+        var f = 0.1,
+            speed = 0,
+            angle = 0; //设置摩擦力
+
+        ship.x = right / 4;
+        ship.y = bottom / 4;
+        ship.vx = 0;
+        ship.vy = 0;
+        ship.rotation = 0;
+
+        var vr = 0; //设置旋转角度
+
+        window.addEventListener('keydown', function() {
+            switch (event.keyCode) {
+                case 37:
+                    vr = 3;
+                    break;
+                case 38:
+                    vr = -3;
+                    break;
+                case 39:
+                    speed = 0.5;
+                    ship.showFlame = true;
+                    break;
+                case 40:
+                    speed = -0.2;
+                    break;
+            }
+        })
+
+        window.addEventListener('keyup', function() {
+            vr = 0;
+            speed = 0;
+            ship.showFlame = false;
+        })
+
+        function drawShip(ship) {
+
+            if (speed > f) {
+                speed -= f; // 当速度大于摩擦减少的速度时，就减少速度。
+            } else {
+                speed = 0; //否则速度变为0
+            }
+
+            ship.rotation += vr * Math.PI / 180;
+            angle = ship.rotation;
+            ship.vx += Math.cos(angle) * speed;
+            ship.vy += Math.sin(angle) * speed;
+
+            ship.x += ship.vx;
+            ship.y += ship.vy;
+
+            if (ship.x - ship.width / 2 > canvas.width) {
+                ship.x = 0;
+            }
+
+            if (ship.x < 0) {
+                ship.x = right;
+            }
+
+            if (ship.y - ship.height / 2 > canvas.height) {
+                ship.y = 0;
+            } 
+
+            if (ship.y < 0) {
+                ship.y = bottom;
+            }
+
+            ship.draw(pen);
+
+        }
+
+        (function draw() {
+            window.requestAnimationFrame(draw);
+            pen.clearRect(0, 0, right, bottom);
+            drawShip(ship);
+        })();
+    }
+    </script>
+</body>
+
+</html>

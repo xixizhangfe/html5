@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    #canvas{
+      background: black;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <canvas id="canvas" width="500" height="500">
+      
+    </canvas>
+  </div>
+  <script src="js/ball.js"></script>
+  <script src="js/utils.js"></script>
+  <script type="text/javascript">
+    // 简易摩擦力计算
+    window.onload=function(){
+      var canvas = document.getElementById('canvas');
+      var pen = canvas.getContext('2d');
+      var left =0 ;
+      var top = 0;
+      var right = canvas.width;
+      var bottom = canvas.height;
+      var size = 20;
+      var color = "#e23737"
+      var ball = new Ball(size,color);
+
+      var f=0.95, speed=0, angle=0; //设置摩擦力
+
+      ball.x = right/4;
+      ball.y = bottom/4;
+      ball.vx = 4;
+      ball.vy = 3;
+      
+
+      function drawBall(ball) {
+        ball.vx *= f;
+        ball.vy *= f;
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        ball.draw(pen);
+        
+      }
+
+      (function draw(){
+        window.requestAnimationFrame(draw);
+        pen.clearRect(0,0,right,bottom);
+        drawBall(ball);
+      })();
+    }
+  </script>
+</body>
+</html>

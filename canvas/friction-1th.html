@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <style type="text/css">
+    #canvas{
+      background: black;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <canvas id="canvas" width="500" height="500">
+      
+    </canvas>
+  </div>
+  <script src="js/ball.js"></script>
+  <script src="js/utils.js"></script>
+  <script type="text/javascript">
+    // 标准摩擦力计算方法
+    window.onload=function(){
+      var canvas = document.getElementById('canvas');
+      var pen = canvas.getContext('2d');
+      var left =0 ;
+      var top = 0;
+      var right = canvas.width;
+      var bottom = canvas.height;
+      var size = 20;
+      var color = "#e23737"
+      var ball = new Ball(size,color);
+
+      var f=0.05, speed=0, angle=0; //设置摩擦力
+
+      ball.x = right/4;
+      ball.y = bottom/4;
+      ball.vx = 4;
+      ball.vy = 3;
+      
+
+      function drawBall(ball) {
+        speed = Math.sqrt(ball.vx*ball.vx+ball.vy*ball.vy);
+        angle = Math.atan2(ball.vy, ball.vx);
+
+        if(speed > f){
+          speed -= f; // 当速度大于摩擦减少的速度时，就减少速度。
+        }else{
+          speed = 0; //否则速度变为0
+        }
+        ball.vx = Math.cos(angle)*speed;
+        ball.vy = Math.sin(angle)*speed;
+
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+        ball.draw(pen);
+        
+      }
+
+      (function draw(){
+        window.requestAnimationFrame(draw);
+        pen.clearRect(0,0,right,bottom);
+        drawBall(ball);
+      })();
+    }
+  </script>
+</body>
+</html>
